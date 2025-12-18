@@ -1,135 +1,172 @@
-// Elementos do DOM
-const modal = document.getElementById('upload-modal');
-const form = document.getElementById('upload-form');
-const galleryGrid = document.getElementById('gallery-grid');
-const fileInput = document.getElementById('file-input');
-const dropZone = document.getElementById('drop-zone');
-const dropContent = document.getElementById('drop-content');
-const imagePreview = document.getElementById('image-preview');
-const removePreviewBtn = document.getElementById('remove-preview');
-const submitBtn = document.getElementById('submit-btn');
-const toast = document.getElementById('toast');
+document.addEventListener('DOMContentLoaded', () => {
+    // Referências DOM
+    const modal = document.getElementById('upload-modal');
+    const btnOpen = document.getElementById('btn-open-modal');
+    const btnClose = document.getElementById('btn-close-modal');
+    const backdrop = document.getElementById('modal-backdrop');
+    
+    const form = document.getElementById('upload-form');
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    const imagePreview = document.getElementById('image-preview');
+    const removePreviewBtn = document.getElementById('remove-preview');
+    const dropContent = document.getElementById('drop-content');
+    const galleryGrid = document.getElementById('gallery-grid');
+    const submitBtn = document.getElementById('submit-btn');
+    const toast = document.getElementById('toast');
 
-// Variável para armazenar a imagem em Base64
-let uploadedImageSrc = null;
+    let uploadedImageSrc = null;
 
-// Toggle Modal
-function toggleModal() {
-    const isHidden = modal.classList.contains('hidden');
-    if (isHidden) {
+    // --- Lógica do Modal ---
+    function openModal() {
         modal.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
-    } else {
+    }
+
+    function closeModal() {
         modal.classList.add('hidden');
         document.body.style.overflow = 'auto';
-        resetForm(); // Limpa o form ao fechar
+        resetForm();
     }
-}
 
-// Lógica de Preview de Imagem (File Reader)
-fileInput.addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    handleFile(file);
-});
+    btnOpen.addEventListener('click', openModal);
+    btnClose.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
 
-function handleFile(file) {
-    if (file && file.type.startsWith('image/')) {
+    // --- Lógica de Drag & Drop ---
+    
+    // Prevenir comportamento padrão (abrir arquivo no navegador)
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    // Efeitos visuais ao arrastar
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => {
+            dropZone.classList.add('border-primary', 'bg-primary/5');
+        }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => {
+            dropZone.classList.remove('border-primary', 'bg-primary/5');
+        }, false);
+    });
+
+    // Handle Drop
+    dropZone.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        handleFiles(files);
+    }
+
+    // Handle Click (Abre o seletor de arquivos)
+    dropZone.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    // Handle File Input Change
+    fileInput.addEventListener('change', function() {
+        handleFiles(this.files);
+    });
+
+    function handleFiles(files) {
+        if (files.length > 0) {
+            const file = files[0];
+            if (file.type.startsWith('image/')) {
+                previewFile(file);
+            } else {
+                alert('Por favor, envie apenas imagens.');
+            }
+        }
+    }
+
+    function previewFile(file) {
         const reader = new FileReader();
-        
-        reader.onload = function(e) {
-            uploadedImageSrc = e.target.result; // Salva o Base64
-            
-            // UI Updates
+        reader.readAsDataURL(file);
+        reader.onloadend = function() {
+            uploadedImageSrc = reader.result;
             imagePreview.src = uploadedImageSrc;
             imagePreview.classList.remove('hidden');
             removePreviewBtn.classList.remove('hidden');
-            dropContent.classList.add('opacity-0'); // Esconde o ícone de upload
-            dropZone.classList.add('border-primary'); // Borda ativa
+            dropContent.classList.add('opacity-0');
         }
-        
-        reader.readAsDataURL(file);
     }
-}
 
-// Remover Preview
-removePreviewBtn.addEventListener('click', function(e) {
-    e.stopPropagation(); // Evita abrir o seletor de arquivos de novo
-    resetPreview();
-});
+    // --- Remover Imagem ---
+    removePreviewBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Impede que o clique propague para o dropZone e abra o seletor de novo
+        resetPreview();
+    });
 
-function resetPreview() {
-    fileInput.value = '';
-    uploadedImageSrc = null;
-    imagePreview.classList.add('hidden');
-    removePreviewBtn.classList.add('hidden');
-    dropContent.classList.remove('opacity-0');
-    dropZone.classList.remove('border-primary');
-}
-
-function resetForm() {
-    resetPreview();
-    document.getElementById('photo-caption').value = '';
-    submitBtn.innerText = "Publicar na Galeria";
-    submitBtn.disabled = false;
-}
-
-// Show Toast Notification
-function showToast() {
-    toast.classList.remove('translate-y-20', 'opacity-0');
-    setTimeout(() => {
-        toast.classList.add('translate-y-20', 'opacity-0');
-    }, 3000);
-}
-
-// Submit do Formulário
-form.addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    // Validação simples
-    if (!uploadedImageSrc) {
-        alert("Por favor, selecione uma imagem primeiro.");
-        return;
+    function resetPreview() {
+        fileInput.value = '';
+        uploadedImageSrc = null;
+        imagePreview.classList.add('hidden');
+        removePreviewBtn.classList.add('hidden');
+        dropContent.classList.remove('opacity-0');
     }
-    
-    const captionInput = document.getElementById('photo-caption');
-    const captionText = captionInput.value || "Momento Capturado";
-    
-    // Feedback Visual de Loading
-    submitBtn.innerText = "Enviando...";
-    submitBtn.disabled = true;
 
-    // Simular delay de rede (apenas para UX)
-    setTimeout(() => {
-        // 1. Criar o elemento HTML da nova foto
-        const newItem = document.createElement('div');
-        newItem.className = 'gallery-item break-inside-avoid animate-fade-in group relative rounded-2xl overflow-hidden cursor-pointer';
-        
-        // Usamos uploadedImageSrc que contém a imagem real em Base64
-        newItem.innerHTML = `
-            <img src="${uploadedImageSrc}" 
-                 alt="${captionText}" 
-                 class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700">
-            <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                <p class="text-white font-medium drop-shadow-md translate-y-4 group-hover:translate-y-0 transition-transform duration-300">${captionText}</p>
-            </div>
-        `;
+    function resetForm() {
+        resetPreview();
+        document.getElementById('photo-caption').value = '';
+        submitBtn.innerText = "Publicar na Galeria";
+        submitBtn.disabled = false;
+    }
 
-        // 2. Adicionar ao topo do grid
-        galleryGrid.insertBefore(newItem, galleryGrid.firstChild);
+    // --- Submit do Formulário ---
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
 
-        // 3. Sucesso
-        toggleModal();
-        showToast();
-        
-        // Scroll suave para o topo
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (!uploadedImageSrc) {
+            alert("Selecione uma imagem primeiro!");
+            return;
+        }
 
-    }, 800);
-});
+        const captionInput = document.getElementById('photo-caption');
+        const captionText = captionInput.value || "Momento Capturado";
 
-// Fechar modal com ESC
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-        toggleModal();
+        // Loading state
+        submitBtn.innerText = "Enviando...";
+        submitBtn.disabled = true;
+
+        setTimeout(() => {
+            // Criar novo card
+            const newItem = document.createElement('div');
+            newItem.className = 'gallery-item break-inside-avoid animate-fade-in group relative rounded-2xl overflow-hidden cursor-pointer';
+            
+            newItem.innerHTML = `
+                <img src="${uploadedImageSrc}" 
+                     alt="${captionText}" 
+                     class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700">
+                <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <p class="text-white font-medium drop-shadow-md translate-y-4 group-hover:translate-y-0 transition-transform duration-300">${captionText}</p>
+                </div>
+            `;
+
+            // Adicionar ao grid
+            galleryGrid.insertBefore(newItem, galleryGrid.firstChild);
+
+            // Feedback
+            closeModal();
+            showToast();
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        }, 800);
+    });
+
+    function showToast() {
+        toast.classList.remove('translate-y-20', 'opacity-0');
+        setTimeout(() => {
+            toast.classList.add('translate-y-20', 'opacity-0');
+        }, 3000);
     }
 });

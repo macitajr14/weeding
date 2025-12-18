@@ -44,7 +44,7 @@
                 <h1 class="font-serif text-2xl font-semibold tracking-wide">Vows & Veils</h1>
             </div>
             
-            <button onclick="toggleModal()" class="group flex items-center gap-2 bg-black text-white px-6 py-2.5 rounded-full hover:bg-primary transition-all duration-300 shadow-lg hover:shadow-primary/30">
+            <button id="btn-open-modal" class="group flex items-center gap-2 bg-black text-white px-6 py-2.5 rounded-full hover:bg-primary transition-all duration-300 shadow-lg hover:shadow-primary/30">
                 <i class="fa-solid fa-plus text-sm group-hover:rotate-90 transition-transform"></i>
                 <span class="text-sm font-medium">Nova Foto</span>
             </button>
@@ -54,6 +54,7 @@
     <div class="h-24"></div>
 
     <main class="max-w-[1600px] mx-auto px-4 sm:px-6 mb-20">
+        <!-- Intro -->
         <div class="text-center max-w-2xl mx-auto mb-12 animate-fade-in-up">
             <p class="text-primary font-serif italic text-lg mb-2">Capturando o amor</p>
             <h2 class="text-4xl md:text-5xl font-serif font-medium mb-6">Momentos Eternos</h2>
@@ -64,7 +65,7 @@
 
         <!-- Grid Masonry -->
         <div id="gallery-grid" class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6 pb-10">
-            <!-- As fotos iniciais permanecem as mesmas (geradas pelo sistema) -->
+            <!-- Fotos Exemplo -->
             <div class="gallery-item break-inside-avoid animate-fade-in group relative rounded-2xl overflow-hidden cursor-pointer">
                 <img src="assets/images/wedding-1.jpg" alt="Noiva" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700" data-prompt="cinematic portrait of a happy bride laughing, soft lighting" data-aspect-ratio="2:3">
                 <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6"><p class="text-white font-medium drop-shadow-md translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Making of</p></div>
@@ -80,39 +81,40 @@
         </div>
     </main>
 
-    <!-- Modal de Upload (REFORMULADO) -->
+    <!-- Modal de Upload -->
     <div id="upload-modal" class="fixed inset-0 z-50 hidden">
-        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" onclick="toggleModal()"></div>
+        <!-- Backdrop -->
+        <div id="modal-backdrop" class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"></div>
         
         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 animate-scale-in">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="font-serif text-2xl font-medium">Adicionar Foto</h3>
-                <button onclick="toggleModal()" class="text-gray-400 hover:text-black transition-colors">
+                <button id="btn-close-modal" class="text-gray-400 hover:text-black transition-colors">
                     <i class="fa-solid fa-xmark text-xl"></i>
                 </button>
             </div>
 
             <form id="upload-form" class="space-y-4">
-                <!-- Área de Drop com Input de Arquivo Real -->
-                <div id="drop-zone" class="relative border-2 border-dashed border-gray-200 rounded-xl p-8 text-center hover:border-primary/50 transition-all cursor-pointer group bg-gray-50 overflow-hidden">
+                <!-- Drop Zone -->
+                <div id="drop-zone" class="relative border-2 border-dashed border-gray-200 rounded-xl p-8 text-center transition-all cursor-pointer group bg-gray-50 overflow-hidden">
                     
-                    <!-- Input Invisível -->
-                    <input type="file" id="file-input" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                    <!-- Input Oculto (Controlado via JS) -->
+                    <input type="file" id="file-input" accept="image/*" class="hidden">
                     
-                    <!-- Conteúdo do Placeholder -->
-                    <div id="drop-content" class="transition-opacity duration-300">
+                    <!-- Conteúdo Placeholder -->
+                    <div id="drop-content" class="pointer-events-none">
                         <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm group-hover:scale-110 transition-transform">
                             <i class="fa-solid fa-cloud-arrow-up text-primary"></i>
                         </div>
                         <p class="text-sm text-gray-500 font-medium">Clique ou arraste uma foto</p>
-                        <p class="text-xs text-gray-400 mt-1">JPG, PNG (Max 5MB)</p>
+                        <p class="text-xs text-gray-400 mt-1">JPG, PNG</p>
                     </div>
 
-                    <!-- Preview da Imagem (Inicialmente Oculto) -->
-                    <img id="image-preview" src="#" alt="Preview" class="absolute inset-0 w-full h-full object-cover hidden">
+                    <!-- Preview -->
+                    <img id="image-preview" src="#" alt="Preview" class="absolute inset-0 w-full h-full object-cover hidden z-10">
                     
-                    <!-- Botão de Remover Preview -->
-                    <button type="button" id="remove-preview" class="absolute top-2 right-2 bg-white/80 p-1.5 rounded-full hover:bg-red-50 hover:text-red-500 z-20 hidden backdrop-blur-sm shadow-sm transition-colors">
+                    <!-- Botão Remover Preview -->
+                    <button type="button" id="remove-preview" class="absolute top-2 right-2 bg-white/90 p-2 rounded-full hover:bg-red-50 hover:text-red-500 z-20 hidden shadow-md transition-colors">
                         <i class="fa-solid fa-trash-can text-sm"></i>
                     </button>
                 </div>
