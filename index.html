@@ -65,7 +65,18 @@
 
         <!-- Grid Masonry -->
         <div id="gallery-grid" class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6 pb-10">
-            <!-- Fotos Exemplo -->
+            
+            <!-- NOVA FOTO ADICIONADA (Gen Image) -->
+            <div class="gallery-item break-inside-avoid animate-fade-in group relative rounded-2xl overflow-hidden cursor-pointer">
+                <img src="assets/images/gen-1766048072781.png" 
+                     alt="Destaque Especial" 
+                     class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700">
+                <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <p class="text-white font-medium drop-shadow-md translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Destaque da Coleção</p>
+                </div>
+            </div>
+
+            <!-- Fotos Anteriores -->
             <div class="gallery-item break-inside-avoid animate-fade-in group relative rounded-2xl overflow-hidden cursor-pointer">
                 <img src="assets/images/wedding-1.jpg" alt="Noiva" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700" data-prompt="cinematic portrait of a happy bride laughing, soft lighting" data-aspect-ratio="2:3">
                 <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6"><p class="text-white font-medium drop-shadow-md translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Making of</p></div>
@@ -81,11 +92,9 @@
         </div>
     </main>
 
-    <!-- Modal de Upload -->
+    <!-- Modal de Upload (Mantido) -->
     <div id="upload-modal" class="fixed inset-0 z-50 hidden">
-        <!-- Backdrop -->
         <div id="modal-backdrop" class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"></div>
-        
         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 animate-scale-in">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="font-serif text-2xl font-medium">Adicionar Foto</h3>
@@ -93,15 +102,9 @@
                     <i class="fa-solid fa-xmark text-xl"></i>
                 </button>
             </div>
-
             <form id="upload-form" class="space-y-4">
-                <!-- Drop Zone -->
                 <div id="drop-zone" class="relative border-2 border-dashed border-gray-200 rounded-xl p-8 text-center transition-all cursor-pointer group bg-gray-50 overflow-hidden">
-                    
-                    <!-- Input Oculto (Controlado via JS) -->
                     <input type="file" id="file-input" accept="image/*" class="hidden">
-                    
-                    <!-- Conteúdo Placeholder -->
                     <div id="drop-content" class="pointer-events-none">
                         <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm group-hover:scale-110 transition-transform">
                             <i class="fa-solid fa-cloud-arrow-up text-primary"></i>
@@ -109,21 +112,15 @@
                         <p class="text-sm text-gray-500 font-medium">Clique ou arraste uma foto</p>
                         <p class="text-xs text-gray-400 mt-1">JPG, PNG</p>
                     </div>
-
-                    <!-- Preview -->
                     <img id="image-preview" src="#" alt="Preview" class="absolute inset-0 w-full h-full object-cover hidden z-10">
-                    
-                    <!-- Botão Remover Preview -->
                     <button type="button" id="remove-preview" class="absolute top-2 right-2 bg-white/90 p-2 rounded-full hover:bg-red-50 hover:text-red-500 z-20 hidden shadow-md transition-colors">
                         <i class="fa-solid fa-trash-can text-sm"></i>
                     </button>
                 </div>
-
                 <div>
                     <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Legenda</label>
                     <input type="text" id="photo-caption" placeholder="Ex: O Grande Momento" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all">
                 </div>
-
                 <button type="submit" id="submit-btn" class="w-full bg-black text-white font-medium py-3 rounded-lg hover:bg-primary transition-colors shadow-lg mt-2 disabled:opacity-50 disabled:cursor-not-allowed">
                     Publicar na Galeria
                 </button>
