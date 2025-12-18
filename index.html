@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vows & Veils | Galeria Wedding</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (Configurado via CDN para prototipagem rápida) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#D4AF37', /* Champagne Gold */
+                        secondary: '#F9F9F9',
+                        text: '#2D2D2D',
+                        muted: '#888888'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- CSS Local -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <!-- Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-white text-text antialiased selection:bg-primary selection:text-white">
+
+    <!-- Header Flutuante -->
+    <header class="fixed top-0 left-0 w-full bg-white/90 backdrop-blur-md z-40 border-b border-gray-100 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-rings-wedding text-primary text-2xl"></i>
+                <h1 class="font-serif text-2xl font-semibold tracking-wide">Vows & Veils</h1>
+            </div>
+            
+            <button onclick="toggleModal()" class="group flex items-center gap-2 bg-black text-white px-6 py-2.5 rounded-full hover:bg-primary transition-all duration-300 shadow-lg hover:shadow-primary/30">
+                <i class="fa-solid fa-plus text-sm group-hover:rotate-90 transition-transform"></i>
+                <span class="text-sm font-medium">Nova Foto</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Espaçamento para o Header -->
+    <div class="h-24"></div>
+
+    <!-- Container Principal (Masonry) -->
+    <main class="max-w-[1600px] mx-auto px-4 sm:px-6 mb-20">
+        
+        <!-- Intro -->
+        <div class="text-center max-w-2xl mx-auto mb-12 animate-fade-in-up">
+            <p class="text-primary font-serif italic text-lg mb-2">Capturando o amor</p>
+            <h2 class="text-4xl md:text-5xl font-serif font-medium mb-6">Momentos Eternos</h2>
+            <p class="text-muted font-light leading-relaxed">
+                Uma coleção curada de histórias de amor, luz natural e emoções genuínas. 
+                Navegue pelo nosso mural de inspirações.
+            </p>
+        </div>
+
+        <!-- Grid Masonry -->
+        <div id="gallery-grid" class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6 pb-10">
+            
+            <!-- Foto 1 (Retrato) -->
+            <div class="gallery-item break-inside-avoid animate-fade-in group relative rounded-2xl overflow-hidden cursor-pointer">
+                <img src="assets/images/wedding-1.jpg" 
+                     alt="Noiva sorrindo" 
+                     class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700"
+                     data-prompt="cinematic portrait of a happy bride laughing, holding a bouquet of wildflowers, soft sunset lighting, bokeh background, photorealistic, 8k"
+                     data-aspect-ratio="2:3">
+                <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <p class="text-white font-medium drop-shadow-md translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Making of</p>
+                </div>
+            </div>
+
+            <!-- Foto 2 (Paisagem) -->
+            <div class="gallery-item break-inside-avoid animate-fade-in group relative rounded-2xl overflow-hidden cursor-pointer">
+                <img src="assets/images/wedding-2.jpg" 
+                     alt="Cerimônia" 
+                     class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700"
+                     data-prompt="wide shot of an outdoor wedding ceremony under a giant oak tree, guests seated, white flower petals on grass, dreamy atmosphere"
+                     data-aspect-ratio="16:9">
+                <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <p class="text-white font-medium drop-shadow-md translate-y-4 group-hover:translate-y-0 transition-transform duration-300">A Cerimônia</p>
+                </div>
+            </div>
+
+            <!-- Foto 3 (Retrato) -->
+            <div class="gallery-item break-inside-avoid animate-fade-in group relative rounded-2xl overflow-hidden cursor-pointer">
+                <img src="assets/images/wedding-3.jpg" 
+                     alt="Detalhes do Anel" 
+                     class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700"
+                     data-prompt="macro photography of diamond wedding rings on a vintage lace fabric, soft elegant lighting, high detail"
+                     data-aspect-ratio="3:4">
+                 <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <p class="text-white font-medium drop-shadow-md translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Detalhes</p>
+                </div>
+            </div>
+
+            <!-- Foto 4 (Alto) -->
+            <div class="gallery-item break-inside-avoid animate-fade-in group relative rounded-2xl overflow-hidden cursor-pointer">
+                <img src="assets/images/wedding-4.jpg" 
+                     alt="Casal na chuva" 
+                     class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700"
+                     data-prompt="romantic shot of bride and groom kissing under a transparent umbrella in the rain at night, backlit by street lights, cinematic"
+                     data-aspect-ratio="9:16">
+                 <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <p class="text-white font-medium drop-shadow-md translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Chuva de Amor</p>
+                </div>
+            </div>
+
+            <!-- Foto 5 (Quadrada) -->
+            <div class="gallery-item break-inside-avoid animate-fade-in group relative rounded-2xl overflow-hidden cursor-pointer">
+                <img src="assets/images/wedding-5.jpg" 
+                     alt="Bolo" 
+                     class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700"
+                     data-prompt="elegant white wedding cake with fresh olive branches and roses, minimalist style, bright lighting"
+                     data-aspect-ratio="1:1">
+                 <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <p class="text-white font-medium drop-shadow-md translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Recepção</p>
+                </div>
+            </div>
+
+             <!-- Foto 6 (Retrato) -->
+             <div class="gallery-item break-inside-avoid animate-fade-in group relative rounded-2xl overflow-hidden cursor-pointer">
+                <img src="assets/images/wedding-6.jpg" 
+                     alt="Dança dos noivos" 
+                     class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700"
+                     data-prompt="bride and groom first dance, motion blur on the dress, warm ambient lighting from fairy lights, emotional atmosphere"
+                     data-aspect-ratio="2:3">
+                 <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <p class="text-white font-medium drop-shadow-md translate-y-4 group-hover:translate-y-0 transition-transform duration-300">A Dança</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Loader Infinito (Estético) -->
+        <div class="flex justify-center py-8">
+            <div class="animate-bounce text-muted">
+                <i class="fa-solid fa-ellipsis text-2xl"></i>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal de Upload -->
+    <div id="upload-modal" class="fixed inset-0 z-50 hidden">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" onclick="toggleModal()"></div>
+        
+        <!-- Conteúdo do Modal -->
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 animate-scale-in">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-serif text-2xl font-medium">Adicionar Foto</h3>
+                <button onclick="toggleModal()" class="text-gray-400 hover:text-black transition-colors">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <form id="upload-form" class="space-y-4">
+                <div class="border-2 border-dashed border-gray-200 rounded-xl p-8 text-center hover:border-primary/50 transition-colors cursor-pointer group bg-gray-50">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-cloud-arrow-up text-primary"></i>
+                    </div>
+                    <p class="text-sm text-gray-500">Arraste sua foto ou clique para selecionar</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Legenda / Categoria</label>
+                    <input type="text" id="photo-caption" placeholder="Ex: Votos ao Pôr do Sol" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all">
+                </div>
+
+                <button type="submit" class="w-full bg-black text-white font-medium py-3 rounded-lg hover:bg-primary transition-colors shadow-lg mt-2">
+                    Publicar na Galeria
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
